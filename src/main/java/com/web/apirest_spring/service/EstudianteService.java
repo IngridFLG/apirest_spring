@@ -16,7 +16,7 @@ public class EstudianteService {
         return estudianteRepository.findAll();
     }
 
-    public Estudiante getEstudiantes(Integer id){
+    public Estudiante getEstudiante(Integer id){
         return estudianteRepository.findAllById(id);
     }
 
