@@ -17,4 +17,13 @@ public class Estudiante {
     String email;
 
     String nombre;
+
+    Double nota1;
+
+    Double nota2;
+
+    Double nota3;
+
+    @Transient
+    private Double notaFinal;
 }
