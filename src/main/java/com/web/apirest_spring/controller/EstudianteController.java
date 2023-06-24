@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -47,6 +48,27 @@ public class EstudianteController {
         estudianteService.calcularDatosEstudiantes(estudiantes);
         Collections.sort(estudiantes, Comparator.comparingDouble(Estudiante::getNotaFinal).reversed());
         return estudiantes;
+    }
+
+    @GetMapping("/edad/{tipo}")
+    public List<Estudiante> listarEstudiantesPorEdad(@PathVariable("tipo") String tipo) {
+        List<Estudiante> estudiantes = estudianteService.getEstudiantes();
+        List<Estudiante> estudiantesFiltrados = new ArrayList<>();
+        estudianteService.calcularDatosEstudiantes(estudiantes);
+
+        for (Estudiante estudiante : estudiantes) {
+            int edad = estudiante.getEdad();
+
+            if (tipo.equalsIgnoreCase("mayores") && edad >= 18) {
+                estudiantesFiltrados.add(estudiante);
+            } else if (tipo.equalsIgnoreCase("menores") && edad < 18) {
+                estudiantesFiltrados.add(estudiante);
+            }
+        }
+
+        estudiantesFiltrados.sort(Comparator.comparingInt(Estudiante::getEdad));
+
+        return estudiantesFiltrados;
     }
 
     @GetMapping("/{id}")
