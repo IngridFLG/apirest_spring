@@ -3,6 +3,7 @@ package com.web.apirest_spring.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -11,18 +12,22 @@ public class Estudiante {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private Integer id;
 
     @Column(name = "email", unique = true, nullable = false)
-    String email;
+    private String email;
 
-    String nombre;
+    private String nombre;
 
-    Double nota1;
+    private LocalDate fechaNac;
 
-    Double nota2;
+    private Integer edad;
 
-    Double nota3;
+    private Double nota1;
+
+    private Double nota2;
+
+    private Double nota3;
 
     @Transient
     private Double notaFinal;

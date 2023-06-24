@@ -8,6 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -22,13 +26,26 @@ public class EstudianteController {
         return estudianteService.getEstudiantes();
     }*/
 
+    /**
+     * endpoint listar estudiantes
+     * @return lista de estudiantes con sus datos ya calculados
+     */
     @GetMapping
     public List<Estudiante> listarEstudiantes() {
         List<Estudiante> estudiantes = estudianteService.getEstudiantes();
-        for (Estudiante estudiante : estudiantes) {
-            double notaFinal = (estudiante.getNota1() + estudiante.getNota2() + estudiante.getNota3())/3;
-            estudiante.setNotaFinal(notaFinal);
-        }
+        estudianteService.calcularDatosEstudiantes(estudiantes);
+        return estudiantes;
+    }
+
+    /**
+     * endpoint listar estudiantes por promedio
+     * @return lista de estudiantes con todos sus datos ordenados por promedio
+     */
+    @GetMapping("/promedio")
+    public List<Estudiante> listarEstudiantesPromedio() {
+        List<Estudiante> estudiantes = estudianteService.getEstudiantes();
+        estudianteService.calcularDatosEstudiantes(estudiantes);
+        Collections.sort(estudiantes, Comparator.comparingDouble(Estudiante::getNotaFinal).reversed());
         return estudiantes;
     }
 
